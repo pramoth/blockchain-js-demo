@@ -1,16 +1,17 @@
 import * as crypto from 'crypto-js'
 
 export class Block {
-    private hash: string
+    hash: string
 
-    constructor(private timestemp: string, private data: string, private previousHash: string) {
-        this.hash = this.calcalateHash()
+    constructor(public timestemp: Date, public data: any, public previousHash: string = '') {
+        this.hash = this.calculateHash()
     }
 
-    calcalateHash(): string {
-        return crypto.SHA256(this.timestemp + this.data + this.previousHash).toString()
+    calculateHash(): string {
+        return crypto.SHA256(this.timestemp.toISOString() + JSON.stringify(this.data) + this.previousHash).toString()
     }
-    isValid(){
-        return this.hash === crypto.SHA256(this.timestemp + this.data + this.previousHash).toString()
+
+    isValid() {
+        return this.hash === this.calculateHash()
     }
 }
