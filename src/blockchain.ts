@@ -1,5 +1,7 @@
 import {Block} from "./block";
 
+const DIFFICULTY = 5
+
 export class Blockchain {
     chain: Block[]
 
@@ -15,10 +17,10 @@ export class Blockchain {
         return this.chain[this.chain.length - 1]
     }
 
-    addBlock(block: Block) {
-        block.previousHash = this.getlatesBlock().hash
-        block.hash = block.calculateHash();
-        this.chain.push(block)
+    addBlock(newBlock: Block) {
+        newBlock.previousHash = this.getlatesBlock().hash
+        newBlock.mineBlock(DIFFICULTY)
+        this.chain.push(newBlock)
     }
 
     isChainValid() {
